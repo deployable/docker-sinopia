@@ -2,7 +2,7 @@
 
 A local npm registry running in Docker
 
-Sinopia is not really being actively developed any more but its solid - https://github.com/rlidwka/sinopia
+Sinopia is not actively developed any more but its solid - https://github.com/rlidwka/sinopia
 
 ## Run
 
