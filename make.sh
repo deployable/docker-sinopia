@@ -74,7 +74,7 @@ publish(){
 release(){
   local release_date=$(date +%Y%m%d-%H%M%S)
   [ -z "$(git status --porcelain)" ] || die "Git status not clean"
-  build ${release_data}
+  build ${release_date}
   build latest
   test_run
   git push
