@@ -4,6 +4,10 @@ A local npm registry running in Docker
 
 Sinopia is not really being actively developed any more but its solid - https://github.com/rlidwka/sinopia
 
+## Run
+
+    docker run -d -p 4873:4873 -v sinopia-storage:/sinopia/storage:rw --restart always deployable/sinopia
+
 ## Build
 
 To build and restart an existing container
