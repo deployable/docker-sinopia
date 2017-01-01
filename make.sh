@@ -80,6 +80,7 @@ release(){
   git push
   git tag -f ${release_date}
   publish $release_date
+  publish latest
   git push -f --tags
 }
 
