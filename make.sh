@@ -18,6 +18,11 @@ if [ -z "$ARG" ]; then
   set -- build "$@"
 fi
 
+die(){
+  echo "ERROR: $@"
+  echo "Exiting..."
+  exit 1
+}
 
 build(){
   [ -d "${RELEASE}" ] || download
@@ -67,11 +72,11 @@ publish(){
 
 release(){
   local release_date=$(date +%Y%m%d)
-  if git status --procelain
+  [ -z "$(git status --porcelain)" ] || die "Git status not clean"
   build
-  git tag ${release_date}
+  git tag -f ${release_date}
   publish $release_date
-  git push --tags
+  git push -f --tags
 }
 
 "$@"
