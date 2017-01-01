@@ -67,7 +67,7 @@ logs(){
 
 publish(){
   local tag=${1:-${TAG_TAG}}
-  docker push ${TAG_PREFIX}/${TAG_NAME}:${TAG_TAG}
+  docker push ${TAG_PREFIX}/${TAG_NAME}:${tag}
 }
 
 release(){
