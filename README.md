@@ -10,7 +10,7 @@ Sinopia is not really being actively developed any more but its solid - https://
 
 ## Build
 
-To build and restart an existing container
+To build and restart an existing local container
 
     ./make.sh rebuild
 
