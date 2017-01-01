@@ -74,7 +74,7 @@ release(){
   local release_date=$(date +%Y%m%d-%H%M%S)
   [ -z "$(git status --porcelain)" ] || die "Git status not clean"
   build
-  #test_run
+  test_run
   git push
   git tag -f ${release_date}
   publish $release_date
@@ -82,16 +82,16 @@ release(){
 }
 
 test_start(){
-  echo
+  echo "implement test_start"
 }
 test_exec(){
-  echo
+  echo "implement test_exec"
 }
 test_stop(){
-  echo
+  echo "implement test_stop"
 }
 test_clean(){
-  echo
+  echo "implement test_clean"
 }
 test_run(){
   test_start
