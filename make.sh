@@ -25,8 +25,9 @@ die(){
 }
 
 build(){
+  local tag=${1:-${TAG_TAG}}
   [ -d "${RELEASE}" ] || download
-  docker build --build-arg DOCKER_BUILD_PROXY=http://10.8.8.8:3142 -t ${TAG_PREFIX}/${TAG_NAME} .
+  docker build --build-arg DOCKER_BUILD_PROXY=http://10.8.8.8:3142 -t ${TAG_PREFIX}/${TAG_NAME}:${tag} .
 }
 
 download(){
@@ -73,7 +74,8 @@ publish(){
 release(){
   local release_date=$(date +%Y%m%d-%H%M%S)
   [ -z "$(git status --porcelain)" ] || die "Git status not clean"
-  build
+  build ${release_data}
+  build latest
   test_run
   git push
   git tag -f ${release_date}
