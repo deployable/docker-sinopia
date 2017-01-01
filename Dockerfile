@@ -15,13 +15,9 @@ RUN set -uex; \
     adduser -D -g "" sinopia; \
     adduser -D -g "" -G sinopia sinopiar; \
     mkdir -p /sinopia/storage; \
-    chown sinopiar sinopia/storage; \
+    chown sinopia sinopia/storage; \
     chmod 755 sinopia/storage;
 
-RUN set -uex; \
-    export http_proxy=${http_proxy:-${DOCKER_BUILD_PROXY}}; \
-    apk update; \
-    apk add g++ python-dev make
 
 
 # Use a newer sinopia than release
@@ -31,23 +27,30 @@ RUN set -uex; \
 COPY sinopia-3f55fb4c0c6685e8b22796cce7b523bdbfb4019e /sinopia
 ADD /config.yaml /sinopia/config.yaml
 
-RUN set -uex;\ 
+RUN set -uex; \
+    export http_proxy=${http_proxy:-${DOCKER_BUILD_PROXY}}; \
+    apk update; \
+    apk add g++ python-dev make; \
+    export http_proxy=; \
     cd /sinopia; \
     npm install js-yaml; \
     ./node_modules/.bin/js-yaml package.yaml > package.json; \
     rm npm-shrinkwrap.json; \
     npm install -d --production; \
+    npm cache clean; \
     chown -R sinopia:sinopia /sinopia; \
     chown -R sinopiar:sinopia /sinopia/storage; \
     chmod 755 /sinopia/bin/sinopia; \
     find /sinopia -type d -exec chmod 755 {} +; \
     find /sinopia -type f -exec chmod o+r {} +; \
-    find /sinopia -type f -exec chmod g+r {} +
+    find /sinopia -type f -exec chmod g+r {} +; \
+    apk del --purge python python-dev g++ musl-dev libc-dev gcc
 
 
 ADD /entrypoint.sh /docker-entrypoint.sh
 USER sinopiar
 EXPOSE 4873
+VOLUME ["/sinopia/storage"]
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD [""]
 

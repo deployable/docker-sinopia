@@ -5,12 +5,13 @@ set -uex
 rundir=${0%/*}
 cd $rundir
 
-NAME=sinopia
+NAME="sinopia"
+PATH_APP="/${NAME}"
 PORT=4873
-RELEASE=sinopia-3f55fb4c0c6685e8b22796cce7b523bdbfb4019e
-TAG_PREFIX=deployable
-TAG_NAME=${NAME}
-TAG_TAG=latest
+RELEASE="sinopia-3f55fb4c0c6685e8b22796cce7b523bdbfb4019e"
+TAG_PREFIX="deployable"
+TAG_NAME="${NAME}"
+TAG_TAG="latest"
 
 ARG=${1:-}
 if [ -z "$ARG" ]; then
@@ -39,7 +40,7 @@ rebuild(){
 start(){
   docker run \
     --detach \
-    --volume sinopia-storage:/opt/sinopia/storage:rw \
+    --volume sinopia-storage:${PATH_APP}/storage:rw \
     --publish ${PORT}:${PORT} \
     --name ${NAME} \
     --restart always  \
@@ -60,7 +61,17 @@ logs(){
 }
 
 publish(){
+  local tag=${1:-${TAG_TAG}}
   docker push ${TAG_PREFIX}/${TAG_NAME}:${TAG_TAG}
+}
+
+release(){
+  local release_date=$(date +%Y%m%d)
+  if git status --procelain
+  build
+  git tag ${release_date}
+  publish $release_date
+  git push --tags
 }
 
 "$@"
