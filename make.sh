@@ -43,6 +43,7 @@ rebuild(){
   start
 }
 
+run(){ start "$@"; }
 start(){
   docker run \
     --detach \
