@@ -6,10 +6,9 @@
 # 
 #     docker build --build-arg DOCKER_BUILD_PROXY=http://10.8.8.8:3142 -t deployable/sinopia . && docker stop sinopia && docker rm sinopia && docker run -v sinopia-storage:/sinopia/storage:rw -p 4873:4873 -d --name sinopia --restart always deployable/sinopia
 
-FROM mhart/alpine-node:6.11
+FROM mhart/alpine-node:8.7
 
-ARG DOCKER_BUILD_PROXY
-ENV DOCKER_BUILD_PROXY=$DOCKER_BUILD_PROXY
+ARG DOCKER_BUILD_PROXY=''
 
 RUN set -uex; \
     adduser -D -g "" sinopia; \
@@ -37,8 +36,9 @@ RUN set -uex; \
     ./node_modules/.bin/js-yaml package.yaml > package.json; \
     rm npm-shrinkwrap.json; \
     npm install -d --production; \
-    npm cache clean; \
-    apk del --purge python python-dev g++ musl-dev libc-dev gcc
+    rm -rf ~/.npm; \
+    apk del --purge python python-dev g++ musl-dev libc-dev gcc; \
+    rm -rf /var/cache/apk;
 
 RUN set -uex; \
     touch /sinopia/htpasswd; \
