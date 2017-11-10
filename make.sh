@@ -55,8 +55,8 @@ start(){
 }
 
 stop(){
-  docker stop ${NAME}
-  docker rm ${NAME}
+  docker stop ${NAME} ||  echo stop failed
+  docker rm -f ${NAME} || echo remove failed
 }
 
 shell(){

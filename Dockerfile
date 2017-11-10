@@ -6,7 +6,7 @@
 # 
 #     docker build --build-arg DOCKER_BUILD_PROXY=http://10.8.8.8:3142 -t deployable/sinopia . && docker stop sinopia && docker rm sinopia && docker run -v sinopia-storage:/sinopia/storage:rw -p 4873:4873 -d --name sinopia --restart always deployable/sinopia
 
-FROM mhart/alpine-node:8.7
+FROM node:8.9-alpine
 
 ARG DOCKER_BUILD_PROXY=''
 
