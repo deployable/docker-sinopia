@@ -1,3 +1,7 @@
+# Deprecated
+
+[Verdaccio](https://verdaccio.org) is the actively maintained fork of Sinopia: Use https://github.com/deployable/docker-verdaccio
+
 # Sinopia NPM Registry in Docker
 
 A local npm registry running in Docker
